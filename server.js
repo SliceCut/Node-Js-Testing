@@ -1,6 +1,7 @@
+require('dotenv').config()
 var bodyParser = require('body-parser');
 const express = require('express');
-require('dotenv').config()
+const auth = require('./src/middlewares/auth');
 const app =express();
 
 // parse application/x-www-form-urlencoded
@@ -9,7 +10,7 @@ app.use(bodyParser.urlencoded({ extended: false }))
 // parse application/json
 app.use(bodyParser.json())
 
-app.get('/', function (req, res) {
+app.get('/', auth, function (req, res) {
     res.send('Hello World');
 });
 

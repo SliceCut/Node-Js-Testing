@@ -1,4 +1,4 @@
-const userRepository = require('../repositories/userRepository');
+const userRepository = require('../repositories/UserRepository');
 const registerValidationScheme = require('../validations/register')
 const userService = require('../services/UserService');
 const {sendError, successResponse} = require("../apiResponse")
@@ -22,7 +22,7 @@ class UserController {
      */
     async store(req, res) {
         try {
-            const value = registerValidationScheme.validate(req.body);
+            const value = registerValidationScheme.validate(req.body,{abortEarly: false});
 
             if(value.error) {
                 sendError(res, value.error, 422);
@@ -32,7 +32,8 @@ class UserController {
             console.log("the user is ", user);
             successResponse(res, "User created successfully", user);
         } catch(error) {
-            sendError(res, error, 500);
+            console.log("the error is", error);
+            sendError(res, error.stack, 500);
         }
         
     }

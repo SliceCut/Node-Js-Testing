@@ -1,5 +1,5 @@
-
-const userRepository = require('../repositories/userRepository');
+const jwt=require("jsonwebtoken");
+const userRepository = require('../repositories/UserRepository');
 const User = require('../models/user');
 
 class UserService {
@@ -34,6 +34,16 @@ class UserService {
             'email': user.email,
             'password': user.password
         });
+    }
+
+    /**
+     * 
+     * @param {*} user 
+     */
+    async createToken(user) {
+        console.log("the sceret key is ", process.env.SECRET_KEY);
+        const token = await jwt.sign({"id": user.id}, process.env.SECRET_KEY);
+        return token;
     }
 }
 

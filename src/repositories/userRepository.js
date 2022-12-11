@@ -10,6 +10,15 @@ class UserRepository {
         return await User.findOne(id);
     }
 
+    /**
+     * 
+     * @param {string} email 
+     * @param {string} password 
+     */
+    async getUserByEmailAndPassword(email, password) {
+        return await User.findOne({where: {email: email, password: password}});
+    }
+
     async paginate(limit = 10, sortColumn = "id", sortBy = "desc") {
         return await User.findAndCountAll({
             limit: limit,
